@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the EscolhaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Carro } from '../../modelos/carro';
+import { Acessorio } from '../../modelos/acessorio';
+import { CadastroPage } from '../cadastro/cadastro';
 
 @IonicPage()
 @Component({
@@ -15,7 +11,39 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EscolhaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public carro: Carro;
+  public acessorios: Acessorio[];
+  private _precoTotal: number;
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams) {
+
+      this.carro = this.navParams.get('carroSelecionado');
+
+      this._precoTotal = this.carro.preco;
+
+      this.acessorios = [
+        { nome: 'Freio ABS', preco: 800 },
+        { nome: 'Ar-condicionado', preco: 1000 },
+        { nome: 'MP3 Player', preco: 500 }
+      ];
+  }
+
+  get precoTotal() {
+    return this._precoTotal;
+  }
+
+  atualizaTotal(ativado: boolean, acessorio: Acessorio) {
+    ativado ?
+      this._precoTotal += acessorio.preco :
+      this._precoTotal -= acessorio.preco;
+  }
+
+  avancaCadastro() {
+    this.navCtrl.push(CadastroPage.name, {
+      carroSelecionado: this.carro,
+      precoTotal: this._precoTotal
+    });
   }
 
   ionViewDidLoad() {
