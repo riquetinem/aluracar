@@ -5,5 +5,6 @@ export interface Agendamento {
     modeloCarro: string,
     precoTotal: number,
     confirmado: boolean,
-    enviado: boolean
+    enviado: boolean,
+    data: string
 }
